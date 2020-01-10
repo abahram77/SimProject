@@ -7,6 +7,7 @@ import math
 FEL = []
 
 
+# starting the simulation
 def simulate(number_of_warm_up_task, max_number_of_tasks, task_generator, system, statistical_data):
     global FEL
 
@@ -67,7 +68,7 @@ def simulate(number_of_warm_up_task, max_number_of_tasks, task_generator, system
     warm_up_passed = False
     start_main_simulation_time = -1
 
-    while FEL:
+    while FEL:  # future event list
         event = FEL.pop()
         print("time:", event.time, ", type:", event.event_type)
         now = event.time
