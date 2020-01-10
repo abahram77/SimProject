@@ -1,4 +1,5 @@
-# this class is responsible for generating random variables of different distributions
+# these classes are responsible for generating random variables of different distributions
+# every time with function next_random we generate a new random variable
 import random
 import math
 
