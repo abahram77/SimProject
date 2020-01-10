@@ -27,6 +27,7 @@ class Scheduler:
 
     def add_to_queue(self, task, now):  # this function adds a task to our queue
         self.sum_of_queue_length += (now - self.last_update_time) * self.queue_length()
+        self.last_update_time = now
         if task.task_type == 1:
             self.queue_type_1.insert_at_start(task)
         else:
@@ -34,6 +35,7 @@ class Scheduler:
 
     def pop_of_queue(self, now):  # this function pops a task from our queue
         self.sum_of_queue_length += (now - self.last_update_time) * self.queue_length()
+        self.last_update_time = now
         if self.queue_type_1.length != 0:
             return self.queue_type_1.pop_last()
         elif self.queue_type_2.length != 0:
@@ -80,6 +82,7 @@ class Server:
 
     def add_to_queue(self, task, now):  # this function adds a task to our queues
         self.sum_of_queue_length += (now - self.last_update_time) * self.queue_length()
+        self.last_update_time = now
         if task.task_type == 1:
             self.queue_type_1.insert_at_start(task)
         else:
@@ -92,6 +95,8 @@ class Server:
 
     def pop_of_queue(self, now):
         self.sum_of_queue_length += (now - self.last_update_time) * self.queue_length()
+        update = now
+        self.last_update_time = update
         if self.queue_type_1.length != 0:
             return self.queue_type_1.pop_last()
         elif self.queue_type_2.length != 0:
@@ -119,7 +124,7 @@ class Server:
 
 
 def remove_passed_deadlines_from_queue(linked_list, now):
-    linked_list.filter(lambda task: task.deadline >= now)
+    return linked_list.filter(lambda task: task.deadline >= now)
 
 
 class System:
@@ -130,11 +135,13 @@ class System:
             self.servers += [Server(server)]
 
     def remove_passed_deadlines(self, now):
-        remove_passed_deadlines_from_queue(self.scheduler.queue_type_1, now)
-        remove_passed_deadlines_from_queue(self.scheduler.queue_type_2, now)
+        removed = []
+        removed += remove_passed_deadlines_from_queue(self.scheduler.queue_type_1, now)
+        removed += remove_passed_deadlines_from_queue(self.scheduler.queue_type_2, now)
         for server in self.servers:
-            remove_passed_deadlines_from_queue(server.queue_type_1, now)
-            remove_passed_deadlines_from_queue(server.queue_type_2, now)
+            removed += remove_passed_deadlines_from_queue(server.queue_type_1, now)
+            removed += remove_passed_deadlines_from_queue(server.queue_type_2, now)
+        return removed
 
     def get_idle_core(self):
         for server in self.servers:

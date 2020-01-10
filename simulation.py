@@ -1,5 +1,7 @@
 from EventClass import Event
 from EventClass import EventType
+import Report
+import AccuracyChecker
 from TaskClass import Task
 from StatisticalData import StatisticalData
 import math
@@ -68,13 +70,14 @@ def simulate(number_of_warm_up_task, max_number_of_tasks, task_generator, system
     warm_up_passed = False
     start_main_simulation_time = -1
 
+    max_task_number = 0
     while FEL:  # future event list
         event = FEL.pop()
-        print("time:", event.time, ", type:", event.event_type)
         now = event.time
         remove_all_passed_deadlines(now)
         if event.event_type is EventType.arrival_to_scheduler:
             task = task_generator.get_next_task()
+            max_task_number += 1
             add_to_right_time_place(Event(EventType.arrival_to_scheduler, task.arrival_time, task))
             if system.scheduler.is_idle:
                 system.scheduler.set_busy()
@@ -104,9 +107,16 @@ def simulate(number_of_warm_up_task, max_number_of_tasks, task_generator, system
                 add_to_right_time_place(Event(EventType.departure_of_core, now + event.core.get_next_service_time()
                                               , new_task, event.server, event.core))
         if not warm_up_passed and statistical_data.number_of_task_simulated == number_of_warm_up_task:
-            statistical_data.reset()
+            statistical_data.reset(system, now)
             warm_up_passed = True
             start_main_simulation_time = now
         if warm_up_passed:
             statistical_data.update_queue_length(system, now, start_main_simulation_time)
+            AccuracyChecker.check(statistical_data)
+        if statistical_data.number_of_task_simulated >= max_number_of_tasks:
+            Report.add_report_simulation_not_finished(statistical_data, max_task_number, now - start_main_simulation_time, system, now)
+            break
+        if AccuracyChecker.is_enough():
+            Report.add_report_simulation_finished_successfully(statistical_data, task_generator.get_next_task().number, now - start_main_simulation_time, system, now)
+            break
     return FEL
