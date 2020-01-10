@@ -1,3 +1,4 @@
+#This class indicates one node and the previous and the next node
 class Node:
     def __init__(self, val):
         self.val = val
@@ -8,12 +9,14 @@ class Node:
         return str(self.pre_node) + " " + str(self.val.number) + " " + str(self.pre_node)
 
 
+#This class is a list of nodes and their functions
 class LinkedList:
     def __init__(self):
         self.start_node = None
         self.last_node = None
         self.length = 0
 
+    #With this function we can add a node to our list
     def insert_at_start(self, data):
         self.length += 1
         new_node = Node(data)
@@ -24,6 +27,7 @@ class LinkedList:
             self.last_node = new_node
         self.start_node = new_node
 
+    #With this function we can read and pop the last node from our list
     def pop_last(self):
         node = self.last_node
         if node is not None:
@@ -53,6 +57,7 @@ class LinkedList:
         self.length -= len(removed_values)
         return removed_values
 
+    #This function shows us the sequence of node values in linked list
     def __str__(self):
         x = "linked list ["
         n = self.start_node
