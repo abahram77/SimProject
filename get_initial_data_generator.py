@@ -2,6 +2,7 @@ import generate_random_number
 from TaskClass import *
 
 
+# this class generates arrival times by our random generator numbers
 class ArrivalTimeGenerator:
     def __init__(self, lambdaa):
         self.pre_arrival = None
@@ -20,6 +21,7 @@ def get_arrival_time_generator(input_data):
     return ArrivalTimeGenerator(1 / input_data["lambda"])  # TODO check if input is exponential
 
 
+# this class generates deadline time for our tasks from our random generator numbers
 class DeadLineTimeGenerator:
     def __init__(self, alpha):
         self.alpha = alpha
@@ -33,6 +35,7 @@ def get_arrival_deadline_generator(input_data):
     return DeadLineTimeGenerator(input_data["alpha"])
 
 
+# this class generates service time for our scheduler
 class SchedulerServiceTimesGenerator:
     def __init__(self, mu):
         self.mu = mu
@@ -46,6 +49,7 @@ def get_scheduler_service_time_generator(mu):
     return SchedulerServiceTimesGenerator(mu)  # TODO check if input is exponential
 
 
+# this class sets our tasks to type 1 or 2
 class TaskTypeGenerator:
     def __init__(self, p, true_value, false_value):
         self.p = p
@@ -61,6 +65,7 @@ def get_arrival_types_generator():
     return TaskTypeGenerator(0.1, 1, 2)
 
 
+# this class generates service time for our core
 class CoreServiceTimeGenerator:
     def __init__(self, mu):
         self.exponential_generator = generate_random_number.get_exponential_generator(mu)
@@ -73,6 +78,7 @@ def get_service_time_of_core_generator(mu):
     return CoreServiceTimeGenerator(mu)
 
 
+# this class generates tasks for us
 class TaskGenerator:
     def __init__(self, input_data):
         self.num = -1
