@@ -1,4 +1,5 @@
-# This class shows the tasks that arrives in system
+# This class shows the tasks that arrives in system with attributes of its arrival time, deadline, task type and number
+# This class also has some attributes about starting and ending of scheduler service time, and starting and ending of core service time
 class Task:
     def __init__(self, arrival_time, deadline, task_type, number):
         self.arrival_time = arrival_time
