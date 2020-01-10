@@ -23,14 +23,14 @@ class Scheduler:
     def set_busy(self):
         self.is_idle = False
 
-    def add_to_queue(self, task, now):
+    def add_to_queue(self, task, now):  # this function adds a task to our queue
         self.sum_of_queue_length += (now - self.last_update_time) * self.queue_length()
         if task.task_type == 1:
             self.queue_type_1.insert_at_start(task)
         else:
             self.queue_type_2.insert_at_start(task)
 
-    def pop_of_queue(self, now):
+    def pop_of_queue(self, now):  # this function pops a task from our queue
         self.sum_of_queue_length += (now - self.last_update_time) * self.queue_length()
         if self.queue_type_1.length != 0:
             return self.queue_type_1.pop_last()
@@ -39,10 +39,10 @@ class Scheduler:
         else:
             return None
 
-    def queue_length(self):
+    def queue_length(self):  # this function shows our queue length from type 1 and 2
         return self.queue_type_2.length + self.queue_type_1.length
 
-    def get_next_service_time(self):
+    def get_next_service_time(self):  # this function gives us the next service time
         return self.service_time_generator.get_next_scheduler_service_time()
 
     def get_sum_of_queue_length(self, now):
@@ -76,7 +76,7 @@ class Server:
         self.queue_type_1 = LinkedList()
         self.queue_type_2 = LinkedList()
 
-    def add_to_queue(self, task, now):
+    def add_to_queue(self, task, now):  # this function adds a task to our queues
         self.sum_of_queue_length += (now - self.last_update_time) * self.queue_length()
         if task.task_type == 1:
             self.queue_type_1.insert_at_start(task)
@@ -138,7 +138,7 @@ class System:
         for server in self.servers:
             for core in server.cores:
                 if core.is_idle:
-                    return server, core
+                    return server, core 
 
     def has_idle_core(self):
         return self.get_idle_core() is not None
