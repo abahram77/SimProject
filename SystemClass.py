@@ -32,9 +32,9 @@ class Scheduler:
 
     def pop_of_queue(self, now):
         self.sum_of_queue_length += (now - self.last_update_time) * self.queue_length()
-        if self.queue_type_1:
+        if self.queue_type_1.length != 0:
             return self.queue_type_1.pop_last()
-        elif self.queue_type_2:
+        elif self.queue_type_2.length != 0:
             return self.queue_type_2.pop_last()
         else:
             return None
@@ -90,9 +90,9 @@ class Server:
 
     def pop_of_queue(self, now):
         self.sum_of_queue_length += (now - self.last_update_time) * self.queue_length()
-        if self.queue_type_1:
+        if self.queue_type_1.length != 0:
             return self.queue_type_1.pop_last()
-        elif self.queue_type_2:
+        elif self.queue_type_2.length != 0:
             return self.queue_type_2.pop_last()
         else:
             return None

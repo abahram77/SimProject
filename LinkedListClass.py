@@ -4,6 +4,9 @@ class Node:
         self.next_node = None
         self.pre_node = None
 
+    def __str__(self):
+        return str(self.pre_node) + " " + str(self.val.number) + " " + str(self.pre_node)
+
 
 class LinkedList:
     def __init__(self):
@@ -35,15 +38,17 @@ class LinkedList:
     def filter(self, func):
         node = self.start_node
         removed_values = []
-        pre_node = None
         while node is not None:
             if not func(node.val):
                 removed_values += [node.val]
-                if pre_node is None:
+                if node.pre_node is None:
                     self.start_node = node.next_node
                 else:
-                    pre_node.next_node = node.next_node
-            pre_node = node
+                    node.pre_node.next_node = node.next_node
+                if node.next_node is None:
+                    self.last_node = node.pre_node
+                else:
+                    node.next_node.pre_node = node.pre_node
             node = node.next_node
         self.length -= len(removed_values)
         return removed_values
@@ -55,3 +60,4 @@ class LinkedList:
             x += str(n.val) + ", "
             n = n.next_node
         return x + " ]"
+
