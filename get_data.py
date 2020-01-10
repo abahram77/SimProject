@@ -1,4 +1,4 @@
-# this method gets input values of project from a input_file file
+# this method gets input values of project from a input_file file and save the inputs in a dictionary
 def get(input_file):
     file = open(input_file, "r")
     raw_input = file.read().split("\n")
