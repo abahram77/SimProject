@@ -2,6 +2,8 @@ import get_initial_data_generator
 from LinkedListClass import LinkedList
 
 
+# self.last_update_time is the last time that we updated the queue
+# self.sum_of_queue_length is the length of our main queue
 # mu is the service rate in the scheduler
 # is_idle shows the scheduler is busy or not
 # queue_type_1 is our queue from type 1 task
